@@ -1,5 +1,7 @@
 <x-layout>
   @foreach ($posts as $post)
-    <div>{{ $post->title }}</div>
+    <x-card class="mb-4">
+      {{ $post->title }}
+    </x-card>
   @endforeach
 </x-layout>
