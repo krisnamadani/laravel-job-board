@@ -15,8 +15,14 @@ class PostController extends Controller
         $posts = Post::query();
 
         $posts->when(request('search'), function ($query) {
-            $query->where('title', 'like', '%' . request('search') . '%')
-                ->orWhere('description', 'like', '%' . request('search') . '%');
+            $query->where(function ($query) {
+                $query->where('title', 'like', '%' . request('search') . '%')
+                    ->orWhere('description', 'like', '%' . request('search') . '%');
+                });
+            })->when(request('min_salary'), function ($query) {
+                $query->where('salary', '>=', request('min_salary'));
+            })->when(request('max_salary'), function ($query) {
+                $query->where('salary', '<=', request('max_salary'));
         });
 
         return view('post.index', ['posts' => $posts->get()]);
