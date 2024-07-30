@@ -26,4 +26,11 @@ class RadioGroup extends Component
     {
         return view('components.radio-group');
     }
+
+    public function optionsWithLabels(): array
+    {
+        return array_is_list($this->options) ?
+            array_combine($this->options, $this->options)
+            : $this->options;
+    }
 }
