@@ -13,11 +13,21 @@
     </div>
     <div class="flex space-x-1 text-xs">
       <x-tag>
-        {{ Str::ucfirst($post->experience) }}
+        <a href="{{ route('posts.index', ['experience' => $post->experience]) }}">
+          {{ Str::ucfirst($post->experience) }}
+        </a>
       </x-tag>
-      <x-tag>{{ $post->category }}</x-tag>
+      <x-tag>
+        <a href="{{ route('posts.index', ['category' => $post->category]) }}">
+          {{ $post->category }}
+        </a>
+      </x-tag>
     </div>
   </div>
+
+  <p class="mb-4 text-sm text-slate-500">
+    {!! nl2br(e($post->description)) !!}
+  </p>
 
   {{ $slot }}
 </x-card>
