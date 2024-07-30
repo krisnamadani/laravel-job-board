@@ -12,7 +12,14 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('post.index', ['posts' => Post::all()]);
+        $posts = Post::query();
+
+        $posts->when(request('search'), function ($query) {
+            $query->where('title', 'like', '%' . request('search') . '%')
+                ->orWhere('description', 'like', '%' . request('search') . '%');
+        });
+
+        return view('post.index', ['posts' => $posts->get()]);
     }
 
     /**
