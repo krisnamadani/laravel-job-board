@@ -38,7 +38,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('post.show', ['post' => $post->load('employer')]);
+        return view('post.show', ['post' => $post->load('employer.posts')]);
     }
 
     /**
