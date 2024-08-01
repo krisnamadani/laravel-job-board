@@ -14,7 +14,7 @@ class PostController extends Controller
     {
         $filters = $request->only(['search', 'min_salary', 'max_salary', 'experience', 'category']);
 
-        return view('post.index', ['posts' => Post::filter($filters)->get()]);
+        return view('post.index', ['posts' => Post::with('employer')->filter($filters)->get()]);
     }
 
     /**
@@ -38,7 +38,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('post.show', compact('post'));
+        return view('post.show', ['post' => $post->load('employer')]);
     }
 
     /**
