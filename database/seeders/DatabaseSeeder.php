@@ -36,5 +36,16 @@ class DatabaseSeeder extends Seeder
                 'employer_id' => $employers->random()->id
             ]);
         }
+
+        foreach ($users as $user) {
+            $posts = \App\Models\Post::inRandomOrder()->take(rand(0, 4))->get();
+
+            foreach ($posts as $post) {
+                \App\Models\JobApplication::factory()->create([
+                    'post_id' => $post->id,
+                    'user_id' => $user->id
+                ]);
+            }
+        }
     }
 }
