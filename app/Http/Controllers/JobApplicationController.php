@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class JobApplicationController extends Controller
 {
@@ -20,6 +21,8 @@ class JobApplicationController extends Controller
      */
     public function create(Post $post)
     {
+        Gate::authorize('apply', $post);
+
         return view('job_application.create', ['post' => $post]);
     }
 
@@ -28,6 +31,8 @@ class JobApplicationController extends Controller
      */
     public function store(Post $post, Request $request)
     {
+        Gate::authorize('apply', $post);
+
         $post->jobApplications()->create([
             'user_id' => $request->user()->id,
             ...$request->validate([

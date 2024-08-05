@@ -6,6 +6,10 @@
     <p class="mb-4 text-sm text-slate-500">
       {!! nl2br(e($post->description)) !!}
     </p>
+
+    <x-link-button :href="route('job.application.create', $post)">
+      Apply
+    </x-link-button>
   </x-post-card>
 
   <x-card class="mb-4">
