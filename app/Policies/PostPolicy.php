@@ -63,4 +63,9 @@ class PostPolicy
     {
         return false;
     }
+    
+    public function apply(User $user, Post $post): bool
+    {
+        return !$post->hasUserApplied($user);
+    }
 }

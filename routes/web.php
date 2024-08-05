@@ -18,6 +18,6 @@ Route::delete('auth', [AuthController::class, 'destroy'])
     ->name('auth.destroy');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('job.application', JobApplicationController::class)
+    Route::resource('post.application', JobApplicationController::class)
         ->only(['create', 'store']);
 });

@@ -1,19 +1,19 @@
 <x-layout>
   <x-breadcrumbs class="mb-4"
     :links="[
-        'Jobs' => route('jobs.index'),
-        $job->title => route('jobs.show', $job),
+        'Jobs' => route('posts.index'),
+        $post->title => route('posts.show', $post),
         'Apply' => '#',
     ]" />
 
-  <x-job-card :$job />
+  <x-post-card :$post />
 
   <x-card>
     <h2 class="mb-4 text-lg font-medium">
       Your Job Application
     </h2>
 
-    <form action="{{ route('job.application.store', $job) }}" method="POST">
+    <form action="{{ route('post.application.store', $post) }}" method="POST">
       @csrf
       <div class="mb-4">
         <label for="expected_salary"
