@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\MyJobApplicationController;
+
+Route::get('', fn() => to_route('posts.index'));
 
 Route::resource('posts', PostController::class)
   ->only(['index', 'show']);
@@ -20,4 +23,7 @@ Route::delete('auth', [AuthController::class, 'destroy'])
 Route::middleware('auth')->group(function () {
     Route::resource('post.application', JobApplicationController::class)
         ->only(['create', 'store']);
+
+    Route::resource('my-job-applications', MyJobApplicationController::class)
+        ->only(['index', 'destroy']);
 });
