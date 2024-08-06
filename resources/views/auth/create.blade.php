@@ -8,15 +8,12 @@
       @csrf
 
       <div class="mb-8">
-        <label for="email"
-          class="mb-2 block text-sm font-medium text-slate-900">E-mail</label>
+        <x-label for="email" :required="true">E-mail</x-label>
         <x-text-input name="email" />
       </div>
 
       <div class="mb-8">
-        <label for="password" class="mb-2 block text-sm font-medium text-slate-900">
-          Password
-        </label>
+        <x-label for="password" :required="true">
         <x-text-input name="password" type="password" />
       </div>
 
