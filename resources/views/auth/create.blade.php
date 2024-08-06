@@ -13,7 +13,7 @@
       </div>
 
       <div class="mb-8">
-        <x-label for="password" :required="true">
+        <x-label for="password" :required="true">Password</x-label>
         <x-text-input name="password" type="password" />
       </div>
 

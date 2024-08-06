@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class EmployerController extends Controller
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        Gate::authorize('employer');
+        return [
+            new Middleware('employer')
+        ];
     }
 
     public function create()
@@ -25,7 +28,7 @@ class EmployerController extends Controller
             ])
         );
 
-        return redirect()->route('jobs.index')
+        return redirect()->route('posts.index')
             ->with('success', 'Your employer account was created!');
     }
 }
