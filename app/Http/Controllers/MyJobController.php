@@ -12,7 +12,15 @@ class MyJobController extends Controller
      */
     public function index()
     {
-        return view('my_job.index');
+        return view(
+            'my_job.index',
+            [
+                'posts' => auth()->user()->employer
+                    ->posts()
+                    ->with(['employer', 'jobApplications', 'jobApplications.user'])
+                    ->get()
+            ]
+        );
     }
 
     /**
@@ -37,7 +45,7 @@ class MyJobController extends Controller
             'category' => 'required|in:' . implode(',', Post::$category)
         ]);
         
-        auth()->user()->employer->jobs()->create($validatedData);
+        auth()->user()->employer->posts()->create($validatedData);
 
         return redirect()->route('my-jobs.index')
             ->with('success', 'Job created successfully.');

@@ -31,15 +31,15 @@
           <x-radio-group name="experience" :value="old('experience')"
             :all-option="false"
             :options="array_combine(
-                array_map('ucfirst', \App\Models\Job::$experience),
-                \App\Models\Job::$experience,
+                array_map('ucfirst', \App\Models\Post::$experience),
+                \App\Models\Post::$experience,
             )" />
         </div>
 
         <div>
           <x-label for="category" :required="true">Category</x-label>
           <x-radio-group name="category" :all-option="false" :value="old('category')"
-            :options="\App\Models\Job::$category" />
+            :options="\App\Models\Post::$category" />
         </div>
 
         <div class="col-span-2">
