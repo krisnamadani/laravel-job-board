@@ -11,6 +11,8 @@ class Employer extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['company_name'];
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
