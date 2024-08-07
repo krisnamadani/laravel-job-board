@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use Illuminate\Http\Request;
 
 class MyJobController extends Controller
 {
@@ -34,18 +34,9 @@ class MyJobController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'salary' => 'required|numeric|min:5000',
-            'description' => 'required|string',
-            'experience' => 'required|in:' . implode(',', Post::$experience),
-            'category' => 'required|in:' . implode(',', Post::$category)
-        ]);
-        
-        auth()->user()->employer->posts()->create($validatedData);
+        auth()->user()->employer->posts()->create($request->validated());
 
         return redirect()->route('my-jobs.index')
             ->with('success', 'Job created successfully.');
@@ -62,17 +53,20 @@ class MyJobController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $my_job)
     {
-        //
+        return view('my_job.edit', ['post' => $my_job]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PostRequest $request, Post $my_job)
     {
-        //
+        $my_job->update($request->validated());
+
+        return redirect()->route('my-jobs.index')
+            ->with('success', 'Job updated successfully.');
     }
 
     /**
