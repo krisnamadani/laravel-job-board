@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -12,6 +13,8 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        Gate::authorize('viewAny', Post::class);
+
         $filters = $request->only(['search', 'min_salary', 'max_salary', 'experience', 'category']);
 
         return view(
@@ -41,6 +44,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        Gate::authorize('view', $post);
+
         return view('post.show', ['post' => $post->load('employer.posts')]);
     }
 

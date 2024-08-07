@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use Illuminate\Support\Facades\Gate;
 
 class MyJobController extends Controller
 {
@@ -12,6 +13,8 @@ class MyJobController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAnyEmployer', Post::class);
+
         return view(
             'my_job.index',
             [
@@ -28,6 +31,8 @@ class MyJobController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Post::class);
+
         return view('my_job.create');
     }
 
@@ -36,6 +41,8 @@ class MyJobController extends Controller
      */
     public function store(PostRequest $request)
     {
+        Gate::authorize('create', Post::class);
+        
         auth()->user()->employer->posts()->create($request->validated());
 
         return redirect()->route('my-jobs.index')
@@ -55,6 +62,8 @@ class MyJobController extends Controller
      */
     public function edit(Post $my_job)
     {
+        Gate::authorize('update', $my_job);
+
         return view('my_job.edit', ['post' => $my_job]);
     }
 
@@ -63,6 +72,8 @@ class MyJobController extends Controller
      */
     public function update(PostRequest $request, Post $my_job)
     {
+        Gate::authorize('update', $my_job);
+
         $my_job->update($request->validated());
 
         return redirect()->route('my-jobs.index')

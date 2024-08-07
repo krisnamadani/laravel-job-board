@@ -16,6 +16,11 @@ class PostPolicy
         return true;
     }
 
+    public function viewAnyEmployer(User $user): bool
+    {
+        return true;
+    }
+
     /**
      * Determine whether the user can view the model.
      */
@@ -29,15 +34,23 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->employer !== null;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Post $post): bool
+    public function update(User $user, Post $post): bool|Response
     {
-        return false;
+        if ($post->employer->user_id !== $user->id) {
+            return false;
+        }
+
+        if ($post->jobApplications()->count() > 0) {
+            return Response::deny('Cannot change the job with applications');
+        }
+
+        return true;
     }
 
     /**
@@ -45,7 +58,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return false;
+        return $post->employer->user_id === $user->id;
     }
 
     /**
@@ -53,7 +66,7 @@ class PostPolicy
      */
     public function restore(User $user, Post $post): bool
     {
-        return false;
+        return $post->employer->user_id === $user->id;
     }
 
     /**
@@ -61,7 +74,7 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        return false;
+        return $post->employer->user_id === $user->id;
     }
     
     public function apply(User $user, Post $post): bool
